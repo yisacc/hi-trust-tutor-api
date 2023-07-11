@@ -1,4 +1,4 @@
-const express=require('express')
+import express from 'express'
 
 const app=express()
 
@@ -8,4 +8,4 @@ res.status(200)
 res.json({message:'hello'})
 })
 
-module.exports=app
+export default app
