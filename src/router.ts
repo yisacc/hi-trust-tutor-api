@@ -4,7 +4,9 @@ const router=Router()
 /** 
 * Users
 */
-router.get('/users',()=>{})
+router.get('/users',(req,res)=>{
+res.json({message:"users"})
+})
 router.get('/user/:id',()=>{})
 router.put('user/:id',()=>{})
 router.post('user',()=>{})
