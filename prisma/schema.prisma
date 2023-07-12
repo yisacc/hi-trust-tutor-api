@@ -10,30 +10,40 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
 model User {
-  id        String   @id @default(uuid())
-  username  String   @unique
-  password  String
-  createdAt DateTime @default(now())
-  firstname String
-  lastname  String
-  email     String   @unique
-  isActive  Boolean  @default(true)
+  id          String    @id @default(uuid())
+  username    String    @unique
+  password    String
+  firstname   String    @db.VarChar(255)
+  lastname    String    @db.VarChar(255)
+  email       String    @unique
+  isActive    Boolean   @default(true)
+  role        Role      @relation(fields: [roleId], references: [id])
+  roleId      String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 model Role {
-  id           String     @id @default(uuid())
-  name         String     @unique
-  isActive     Boolean    @default(true)
-  isAdmin      Boolean    @default(false)
-  permissions  Permission @relation(fields: [permissionId], references: [code])
-  permissionId String
+  id          String       @id @default(uuid())
+  name        String       @unique @db.VarChar(255)
+  isActive    Boolean      @default(true)
+  isAdmin     Boolean      @default(false)
+  permissions Permission[]
+  User        User[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 model Permission {
-  code        String  @id @unique
+  id          String    @id @default(uuid())
+  code        String    @unique
   name        String
   description String?
-  isActive    Boolean @default(true)
+  isActive    Boolean   @default(true)
   Role        Role[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
 }
